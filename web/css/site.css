@@ -1,0 +1,341 @@
+html,
+body {
+    height: 100%;
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 70px 15px 20px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: /*"\e113"*/ "\e151";
+}
+
+a.desc:after {
+    content: /*"\e114"*/ "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+}
+
+/*****************************************************************************
+ * Application styles
+ *****************************************************************************/
+
+/* Btn Gray */
+
+.btn-gray {
+    background-color: #eee;
+}
+
+/* Datetime */
+
+.datetime .time:hover {
+    border-bottom: 1px dotted #ccc;
+}
+
+/* Logo */
+
+.logo{}
+
+.logo img {
+    float: left;
+    padding: 6px 10px 8px 10px;
+    margin-top: -4px;
+    border-radius: 2px;
+    background: white;
+}
+
+.logo span {
+    position: relative;
+    top: 5px;
+    left: 15px;
+}
+
+/* Overriding Detail View */
+
+.detail-view{}
+
+.detail-view th {
+    width: 200px;
+}
+
+.detail-view .lighten {
+    color: #aaa;
+}
+
+/* Overriding Bootstrap Datepicker */
+
+.datepicker {
+    padding: 6px;
+    /*padding: 12px;*/
+}
+
+.datepicker td {
+    padding: 5px 9px !important;
+}
+
+.datepicker th.datepicker-switch {
+    pointer-events: none;
+}
+
+/* Overriding Bootstrap Form */
+
+.form-group .btn {
+    margin-top: 10px;
+}
+
+.form-group .btn:not(:last-child) {
+    margin-right: 15px;
+}
+
+/* Overriding Bootstrap Form horizontal */
+
+.form-horizontal .control-label {
+    text-align: left;
+}
+
+/* Action menu */
+
+.action-menu{}
+
+.action-menu .item:not(:last-child) {
+    margin-right: 8px;
+}
+
+/* Extending Bootstrap Label */
+
+.label.custom {
+    display: inline-block;
+    padding: .3em .5em .4em .5em;
+    margin-bottom: 2px;
+}
+
+.label.label-blue-1 {
+    /*background-color: #4f93ce;*/
+    /*background-color: #63a0d4;*/
+    background-color: #3295c6;
+}
+
+.label.label-blue-2 {
+    background-color: #337ab7;
+    /*background-color: #2d6da3;*/
+}
+
+/* Overriding Bootstrap Page Header */
+
+.page-header {
+    margin-top: 60px;
+    position: relative;
+}
+
+.page-header .action-menu {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 24px;
+    margin-right: 9px;
+}
+
+.page-header .lighten {
+    color: #ccc;
+    /*font-size: 35px;*/
+    font-size: 36px;
+    text-transform: lowercase;
+}
+
+.page-header .separator {
+    /*font-size: 25px;*/
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* Overriding Bootstrap Panel */
+
+a.panel {
+    display: block;
+    margin-bottom: 30px;
+}
+
+a.panel:hover {
+    text-decoration: none;
+}
+
+.panel.panel-default {
+    background-color: #f5f5f5;
+}
+
+.panel.panel-default:hover,
+.panel.panel-default:focus {
+    background-color: #f9f9f9;
+}
+
+.panel .lighten {
+    color: #a8c2d8;
+}
+
+.panel .access-btn {
+    margin-top: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/*.table > tbody > tr.highlight {
+    background-color: lightyellow;
+}*/
+
+/* Overriding Bootstrap Table */
+
+.table th {
+    color: #337ab7;
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+}
+
+.table td.datepicker-container {
+    max-width: 80px;
+}
+
+.table tr:nth-child(odd) td .glyphicon-user {
+    color: #dcdcdc !important;
+}
+
+.table tr:nth-child(even) td .glyphicon-user {
+    color: #eaeaea !important;
+}
+
+.table .lighten {
+    color: #aaa;
+}
+
+.table.detail-view th {
+    color: #000;
+}
+
+/* Developer Credits */
+
+.developer-credits {
+    font-size: 12px;
+    font-style: italic;
+    color: #555;
+    margin-top: 2px;
+}
+
+.developer-credits img {
+    margin-top: -1px;
+}
+
+/* Copyright */
+
+.copyright {}
+
+.copyright b {
+    font-weight: bold;
+    color: #555;
+}
+
+.copyright .lighten {
+    color: #666;
+}
