@@ -7,18 +7,18 @@ $config = [
     'basePath' => dirname(__DIR__).'/..',
     'bootstrap' => ['log'],
     'components' => [
-        /*'urlManager'  => [
+        'urlManager'  => [
             'enablePrettyUrl'  => true,
             'showScriptName'  => false,
             'rules' => [
                 [
                     'class'  => 'yii\rest\UrlRule',
                     'controller'  => [
-                        'v1/user'
+                        'v1/customer'
                     ],
                 ],
             ],
-        ],*/
+        ],
         'request' => [
             'parsers' => [
                 'application/json'  => 'yii\web\JsonParser',
