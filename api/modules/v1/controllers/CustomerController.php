@@ -21,4 +21,11 @@ class CustomerController extends ActiveController
         return $this->render('index');
     }*/
 
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['index'], $actions['view']);
+        return $actions;
+    }
+
 }
