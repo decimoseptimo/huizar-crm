@@ -16,7 +16,12 @@ Instructions
 TODO
 ----
 - Either provide DB schema, .sql import file, or implement migrations
-- Connect to POS software through a REST Interface
+- Add RESTful API for managing customers and orders
 - Implement ESP APIs to send email
 - Design HTML template(s)
-- Implement access control
+- Add access control
+
+API
+----
+- POST /api/v1/customers
+- PUT/PATCH, DELETE /api/v1/customers/{id}
