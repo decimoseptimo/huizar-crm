@@ -121,6 +121,18 @@ a.desc:after {
  * Application styles
  *****************************************************************************/
 
+.glyphicon.glyphicon-one-fine-dot {
+    overflow: hidden;
+    line-height: .9;
+}
+
+.glyphicon.glyphicon-one-fine-dot:before {
+    content: "\25cf";
+    font-size: 28px;
+    position: relative;
+    bottom: 4px;
+}
+
 /* Btn Gray */
 
 .btn-gray {
@@ -312,6 +324,20 @@ a.panel:hover {
 
 .table.detail-view th {
     color: #000;
+}
+
+/* */
+.table.customer .id-filter {
+    max-width: 30px;
+}
+
+.table.customer .id-filter .form-control {
+    padding: 0px;
+    text-align: center;
+}
+
+.table.customer .id-content {
+    text-align: center;
 }
 
 /* Developer Credits */

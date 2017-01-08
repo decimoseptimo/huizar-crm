@@ -10,15 +10,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1>Consulta tu Orden</h1>
 </div>
 
-    <?php if(Yii::$app->session->hasFlash('orderCompleted')): ?>
+    <?php if(Yii::$app->session->hasFlash('orderReady')): ?>
 
     <div class="panel"><div class="panel-body text-success bg-success">Buen día <?= Html::encode(Yii::$app->session->getFlash('model')->customer->first_name); ?>, tu orden está lista.
     <br>Puedes pasar a recoger tus prendas en nuesto horario de atención de 7:30 AM a 8:00 PM. Gracias.</div></div>
 
-    <?php elseif(Yii::$app->session->hasFlash('orderNotCompleted')): ?>
+    <?php elseif(Yii::$app->session->hasFlash('orderNotReady')): ?>
 
         <div class="panel"><div class="panel-body text-warning bg-warning">Buen dia <?= Html::encode(Yii::$app->session->getFlash('model')->customer->first_name); ?>, aún no tenemos lista tu orden pero seguimos trabajando en ella.
         <br>Si lo solicitaste en mostrador, recibirás una notificación por correo electrónico cuando este lista. Gracias.</div></div>
+
+    <?php elseif(Yii::$app->session->hasFlash('orderDelivered')): ?>
+
+        <div class="panel"><div class="panel-body text-info bg-info">Buen dia, la orden solicitada ya ha sido entregada.</div></div>
 
     <?php elseif(Yii::$app->session->hasFlash('orderNotFound')): ?>
 
@@ -29,4 +33,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <p>Por favor introduce el número de orden impreso en tu ticket.</p>
 
-<?= $this->render('_search', ['model' => $model, 'value' => Yii::$app->session->getFlash('submittedNumber')]); ?>
+<?= $this->render('_search', ['model' => $model, 'value' => Yii::$app->session->getFlash('submittedId')]); ?>

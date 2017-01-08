@@ -110,24 +110,26 @@ class OrderController extends Controller
     }*/
 
     /*
-     * Marks an Order model as completed
+     * Updates an Order status
+     *
+     * @throws HttpException if model cannot save
      */
-    public function actionComplete($id)
+    public function actionUpdateStatus($id, $status)
     {
         $model = $this->findModel($id);
 
-        if($model->status == Order::STATUS_COMPLETED){
-            throw new NotFoundHttpException('No se puede completar la operacion. La orden seleccionada ya se encuentra finalizada.');
-        }
+        //$model->status = $status;
+        $model->setStatus($status);
 
-        $model->status = Order::STATUS_COMPLETED;
-        $model->finished_at = gmdate('Y-m-d H:i:s');
+        if(($model->finished_at === NULL) && ((int)$model->status === Order::STATUS_DELIVERED))
+            $model->finished_at = gmdate('Y-m-d H:i:s');
 
         if ($model->save(false)) {
-            return $this->redirect(['customer/orders', 'id' => $model->customer->id]);
+            //return $this->redirect(['customer/orders', 'id' => $model->customer->id]);
+            return $this->redirect(Yii::$app->request->referrer);
         }
 
-        throw new HttpException('No se pudo completar la operacion. No se pudo guardar.');
+        throw new HttpException('No se pudo completar la operacion.');
     }
 
     public function actionSearch() {
@@ -141,7 +143,7 @@ class OrderController extends Controller
     }
 
     /*
-     * Searches an Order model by number
+     * Searches an Order model by id
      */
     public function actionIndividualSearch()
     {
@@ -154,15 +156,26 @@ class OrderController extends Controller
             $session = Yii::$app->session;
 
             //query result model
-            if (($model = Order::find()->where(['number' => $post['Order']['number']])->one()) !== null) {
-                $session->setFlash(($model->status == Order::STATUS_COMPLETED) ? 'orderCompleted' : 'orderNotCompleted');
+            if (($model = Order::find()->where(['id' => $post['Order']['id']])->one()) !== null) {
+                switch ($model->status) {
+                    case Order::STATUS_RECEIVED:
+                        $orderStatus = 'orderNotReady';
+                        break;
+                    case Order::STATUS_READY_TO_DELIVER:
+                        $orderStatus = 'orderReady';
+                        break;
+                    case Order::STATUS_DELIVERED:
+                        $orderStatus = 'orderDelivered';
+                        break;
+                }
+                $session->setFlash($orderStatus);
                 $session->setFlash('model', $model);
             }
             else {
                 $session->setFlash('orderNotFound');
             }
 
-            $session->setFlash('submittedNumber', $post['Order']['number']);
+            $session->setFlash('submittedId', $post['Order']['id']);
             return $this->refresh();
         }
 

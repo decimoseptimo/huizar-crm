@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
         //'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'number', ['template' => "{input}\n{hint}\n{error}", 'inputOptions' => ['class' => 'form-control', 'value'=> $value]]); ?>
+    <?= $form->field($model, 'id', ['template' => "{input}\n{hint}\n{error}", 'inputOptions' => ['class' => 'form-control', 'value'=> $value]]); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Buscar', ['class' => 'btn btn-primary']) ?><!--

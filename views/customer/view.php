@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $model->fullName;
             return ($index == 3 || 4) ? '<tr><th>' . $attribute['label'] . '</th><td class="datetime">' . $attribute['value'] . '</td></tr>' : '<tr><th>' . $attribute['label'] . '</th><td>' . $attribute['value'] . '</td></tr>';
         },
         'attributes' => [
-            //'id',
+            'id',
             'first_name',
             'last_name',
             'email:email',

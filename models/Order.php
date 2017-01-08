@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\web\BadRequestHttpException;
+
 
 /**
  * This is the model class for table "order".
@@ -18,9 +20,10 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
-    
-    const STATUS_IN_PROCESS = 0;
-    const STATUS_COMPLETED = 1;
+
+    const STATUS_RECEIVED = 0;
+    const STATUS_READY_TO_DELIVER = 1;
+    const STATUS_DELIVERED = 2;
     const SCENARIO_SEARCH = 1;
     
     /**
@@ -37,9 +40,9 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['number'], 'required'],
-            [['number'], 'integer'],
-            [['number'], 'unique', 'except' => self::SCENARIO_SEARCH],
+            [['id'], 'required'],
+            [['id'], 'integer'],
+            [['id'], 'unique', 'except' => self::SCENARIO_SEARCH],
         ];
     }
 
@@ -49,8 +52,8 @@ class Order extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'number' => 'Numero de Orden',
+            'id' => 'Numero',
+            //'number' => 'Numero de Orden',
             'status' => 'Estado',
             'created_at' => 'Creado en',
             'finished_at' => 'Finalizado en',
@@ -75,6 +78,28 @@ class Order extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+
+    /*
+     * Ensures status value integrity before assign it to attribute
+     */
+    public function setStatus($value) {
+        if($this->status == $value)
+            throw new BadRequestHttpException('La orden ya se encuentra en el estado solicitado.');
+
+        if (!in_array($value, self::allowedStatus()))
+            throw new BadRequestHttpException('El estado solicitado no es valido.');
+
+        $this->status = $value;
+    }
+
+    /**
+     * Returns a list of allowed status codes
+     *
+     * @return array
+     */
+    protected function allowedStatus() {
+        return [self::STATUS_RECEIVED, self::STATUS_READY_TO_DELIVER, self::STATUS_DELIVERED];
     }
 
 }
