@@ -16,10 +16,11 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                //'only' => ['logout'],
+                'except' => ['login'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        //'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -74,7 +75,7 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function actionContact()
+    /*public function actionContact()
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
@@ -90,5 +91,5 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
-    }
+    }*/
 }

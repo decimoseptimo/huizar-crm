@@ -44,11 +44,11 @@ $this->registerJsFile('@web/js/bootstrap-select.min.js', ['depends' => [JqueryAs
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'tableOptions' => ['class' => 'customer table table-striped table-bordered'],
         'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
             [
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-center'],
@@ -56,6 +56,12 @@ $this->registerJsFile('@web/js/bootstrap-select.min.js', ['depends' => [JqueryAs
                     return Html::a('<span class="glyphicon glyphicon-user text-warning" title="Ver cliente"></span>', ['customer/view', 'id' => $model->id], ['tooltip' => 'ver cliente']);
                 }
             ],
+            //'id',
+            /*[
+                'attribute' => 'id',
+                'filterOptions' => ['class' => 'id-filter'],
+                'contentOptions' => ['class' => 'id-content'],
+            ],*/
             'first_name',
             'last_name',
             'email:email',
@@ -66,7 +72,7 @@ $this->registerJsFile('@web/js/bootstrap-select.min.js', ['depends' => [JqueryAs
                 'value' => function($model) {
                     //$ordersCount = count($model->orders);
                     $ordersCount = $model->getOrders()->count();
-                    $completedOrdersCount = $model->getOrders()->where(['status' => Order::STATUS_COMPLETED])->count();
+                    $completedOrdersCount = $model->getOrders()->where(['status' => Order::STATUS_DELIVERED])->count();
 
                     if($ordersCount == 0) {
                         $text = '0 / 0';

@@ -29,7 +29,7 @@ class OrderSearch extends Order
     public function rules()
     {
         return [
-            [['id', 'number'/*, 'status', 'customer_id'*/], 'integer'],
+            [['id', /*, 'status', 'customer_id'*/], 'integer'],
             [[/*'created_at', */'createdAtDate'/*, 'createdAtTime'*/], 'trim'],
             //[['customer'], 'safe'],
             //[['created_at'], 'date', 'type' => DateValidator::TYPE_DATETIME, 'timestampAttribute' => 'createdAtMachineFormat', 'timestampAttributeFormat' => 'php:Y-m-d H:i:s'],
@@ -110,7 +110,7 @@ class OrderSearch extends Order
         }
 
         $query->andFilterWhere([
-            'number' => $this->number,
+            'order.id' => $this->id,
         ])
         ->andFilterWhere(['>=', 'order.created_at', $dateFrom])
         ->andFilterWhere(['<', 'order.created_at', $dateTo]);

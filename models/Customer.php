@@ -10,6 +10,7 @@ use app\models\Order;
  * This is the model class for table "customer".
  *
  * @property integer $id
+ * @property integer $global_tinto_id
  * @property string $first_name
  * @property string $last_name
  * @property string $email
@@ -38,8 +39,10 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'email'], 'required'],
+            [['first_name', 'last_name', 'email', 'id'], 'required'],
+            [['id'], 'number'],
             [['email'], 'email'],
+            [['email', 'id'], 'unique'],
             [['first_name', 'last_name', 'email'], 'string', 'max' => 128],
         ];
     }
@@ -51,6 +54,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'global_tinto_id' => 'ID Global Tinto',
             'first_name' => 'Nombre',
             'last_name' => 'Apellido',
             'email' => 'Email',

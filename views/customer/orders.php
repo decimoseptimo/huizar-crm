@@ -45,9 +45,9 @@ $this->registerJs('
             //['class' => 'yii\grid\SerialColumn'],
             //id,
             [
-                'attribute' => 'number',
+                'attribute' => 'id',
                 'value' => function($model) {
-                    return sprintf('%08d', $model->number);
+                    return sprintf('%08d', $model->id);
             }],
             //'created_at:datetime',
             [
@@ -69,12 +69,40 @@ $this->registerJs('
                 'contentOptions' => ['class' => 'text-center'],
                 'format' => 'raw',
                 'value' => function($model) {
-                    return ($model->status === Order::STATUS_IN_PROCESS) ? '<i title="En proceso" class="glyphicon glyphicon-minus-sign" style="color: orange"></i>' : '<i title="Finalizada" class="glyphicon glyphicon-ok-sign"  style="color: limegreen"></i>';
+                    switch ($model->status){
+                        case Order::STATUS_RECEIVED:
+                            $title = 'Recibida';
+                            $color = '#FFDC00';
+                            $glyphicon = 'glyphicon-one-fine-dot';
+                            break;
+                        case Order::STATUS_READY_TO_DELIVER:
+                            $title = 'Lista';
+                            $color = 'limegreen';
+                            $glyphicon = 'glyphicon-one-fine-dot';
+                            break;
+                        case Order::STATUS_DELIVERED:
+                            $title = 'Entregada';
+                            $color = 'limegreen';
+                            $glyphicon = 'glyphicon-ok-sign';
+                            break;
+                    }
+                    return '<i title="'.$title.'" class="glyphicon '.$glyphicon.'" style="color: '.$color.'"></i>';
             }],
             [
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return ($model->status === Order::STATUS_IN_PROCESS) ? Html::a('Finalizar Orden', ['order/complete', 'id' => $model->id], ['class' => 'btn btn-default btn-block btn-sm']) : '<div class="btn btn-default btn-block btn-sm disabled">Finalizar Orden</div>';
+                    switch ($model->status){
+                        case Order::STATUS_RECEIVED:
+                            $return = Html::a('Marcar lista', ['order/update-status', 'id' => $model->id, 'status'=> Order::STATUS_READY_TO_DELIVER], ['class' => 'btn btn-default btn-block btn-sm']);
+                            break;
+                        case Order::STATUS_READY_TO_DELIVER:
+                            $return = Html::a('Marcar entregada', ['order/update-status', 'id' => $model->id, 'status'=> Order::STATUS_DELIVERED], ['class' => 'btn btn-default btn-block btn-sm']);
+                            break;
+                        case Order::STATUS_DELIVERED:
+                            $return = '<div class="btn btn-default btn-block btn-sm disabled">Orden entregada</div>';
+                            break;
+                    }
+                    return $return;
             }],
         ],
     ]); ?>
