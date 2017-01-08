@@ -5,23 +5,50 @@ A basic web front-end for a point-of-sale desktop application.<br>[**Live demo**
 
 Requirements
 ------------
-- Yii 2.0.9 (PHP 5.4.0)
-- MySQL
+* Yii 2.0.9 (PHP 5.4.0)
+* MySQL
 
 Instructions
 ------------
-- Setup database
-- Setup /config/db.php file with your db credentials
+* Setup database
+* Setup /config/db.php file with your db credentials
 
 TODO
 ----
-- Either provide DB schema, .sql import file, or implement migrations
-- Add RESTful API for managing customers and orders
-- Implement ESP APIs to send email
-- Design HTML template(s)
-- Add access control
+
+- [ ] Either provide DB schema, .sql import file, or implement migrations
+- [ ] Add RESTful API for managing customers and orders
+- [ ] Implement ESP APIs to send email
+- [ ] Design HTML template(s)
+- [x] Add access control
+- [ ] Integrate order search to website
 
 API
 ----
-- POST /api/v1/customers
-- PUT/PATCH, DELETE /api/v1/customers/{id}
+#####Customers
+* POST /api/v1/customers
+* PUT/PATCH, DELETE /api/v1/customers/{id}
+
+_Model_
+```js
+Customers {
+    id (integer),
+    first_name (string),
+    last_name (string),
+    email (string),
+}
+```
+
+#####Orders
+* POST /api/v1/orders
+* PUT/PATCH /api/v1/orders/{id}?status={status}
+* DELETE /api/v1/orders/{id}
+
+_Model_
+```js
+Orders {
+    id (integer),
+    status (string, default='recibido', accepted-values=('recibido', 'finalizado', 'entregado'))
+    customer_id (integer),
+}
+```
