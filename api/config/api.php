@@ -14,7 +14,8 @@ $config = [
                 [
                     'class'  => 'yii\rest\UrlRule',
                     'controller'  => [
-                        'v1/customer'
+                        'v1/customer',
+                        'v1/order',
                     ],
                 ],
             ],

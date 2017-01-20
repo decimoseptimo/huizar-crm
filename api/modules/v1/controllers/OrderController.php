@@ -4,14 +4,18 @@ namespace app\api\modules\v1\controllers;
 
 use Yii;
 use yii\rest\ActiveController;
+use app\models\Order;
 
 /**
  * Default controller for the `v1` module
  */
-class CustomerController extends ActiveController
+class OrderController extends ActiveController
 {
 
-    public $modelClass = 'app\models\Customer';
+    public $modelClass = 'app\models\Order';
+    public $createScenario = Order::SCENARIO_API_CREATE;
+    public $updateScenario = Order::SCENARIO_API_UPDATE;
+
     /**
      * Renders the index view for the module
      * @return string
@@ -24,7 +28,7 @@ class CustomerController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        //unset($actions['index'], $actions['view']);
+        unset($actions['index'], $actions['view']);
         return $actions;
     }
 
