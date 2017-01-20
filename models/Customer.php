@@ -72,17 +72,22 @@ class Customer extends \yii\db\ActiveRecord
         return $this->hasMany(Order::className(), ['customer_id' => 'id']);
     }
     
-    public function getFullName(){
+    public function getFullName()
+    {
         return $this->first_name . ' ' . $this->last_name;
     }
 
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $this->isNewRecord ? $this->created_at = gmdate('Y-m-d H:i:s') : $this->updated_at = gmdate('Y-m-d H:i:s');
-            //alternative versions...
+            if($this->isNewRecord) {
+                $this->created_at = gmdate('Y-m-d H:i:s');
+            }
+            $this->updated_at = gmdate('Y-m-d H:i:s');
+
             //$this->isNewRecord ? $this->created_at = new Expression('NOW()') : $this->updated_at = new Expression('NOW()');
             //$this->isNewRecord ? $this->created_at = new Expression('UTC_TIMESTAMP()') : $this->updated_at = new Expression('UTC_TIMESTAMP()');
+
             return true;
         } else {
             return false;

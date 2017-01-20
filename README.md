@@ -17,7 +17,7 @@ TODO
 ----
 
 - [ ] Either provide DB schema, .sql import file, or implement migrations
-- [ ] Add RESTful API for managing customers and orders
+- [x] Add RESTful API for managing customers and orders
 - [ ] Implement ESP APIs to send email
 - [ ] Design HTML template(s)
 - [x] Add access control
@@ -27,28 +27,29 @@ API
 ----
 #####Customers
 * POST /api/v1/customers
-* PUT/PATCH, DELETE /api/v1/customers/{id}
+* PUT/PATCH /api/v1/customers/{id}
+* DELETE /api/v1/customers/{id}
 
 _Model_
 ```js
 Customers {
-    id (integer),
+    id (integer, unique),
     first_name (string),
     last_name (string),
-    email (string),
+    email (string, unique),
 }
 ```
 
 #####Orders
 * POST /api/v1/orders
-* PUT/PATCH /api/v1/orders/{id}?status={status}
+* PUT/PATCH /api/v1/orders/{id}
 * DELETE /api/v1/orders/{id}
 
 _Model_
 ```js
 Orders {
-    id (integer),
-    status (string, default='recibido', accepted-values=('recibido', 'finalizado', 'entregado'))
-    customer_id (integer),
+    id (integer, unique),
+    status (string, accepted-values=('recibido' | 'finalizado' | 'entregado'), case-sensitive),
+    customer_id (integer, referenced 'Customer' must have been submitted),
 }
 ```

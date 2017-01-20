@@ -117,14 +117,11 @@ class OrderController extends Controller
     public function actionUpdateStatus($id, $status)
     {
         $model = $this->findModel($id);
+        $model->scenario = Order::SCENARIO_STATUS_UPDATE;
 
-        //$model->status = $status;
-        $model->setStatus($status);
+        $model->status = $status;
 
-        if(($model->finished_at === NULL) && ((int)$model->status === Order::STATUS_DELIVERED))
-            $model->finished_at = gmdate('Y-m-d H:i:s');
-
-        if ($model->save(false)) {
+        if ($model->save()) {
             //return $this->redirect(['customer/orders', 'id' => $model->customer->id]);
             return $this->redirect(Yii::$app->request->referrer);
         }
