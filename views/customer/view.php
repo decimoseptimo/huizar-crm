@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $model->fullName;
     <?= DetailView::widget([
         'model' => $model,
         //'template' => '<tr><th>{label}</th><td class="datetime">{value}</td></tr>',
-        'template' => function ($attribute, $index, $this) {
+        'template' => function ($attribute, $index) {
             return ($index == 3 || 4) ? '<tr><th>' . $attribute['label'] . '</th><td class="datetime">' . $attribute['value'] . '</td></tr>' : '<tr><th>' . $attribute['label'] . '</th><td>' . $attribute['value'] . '</td></tr>';
         },
         'attributes' => [

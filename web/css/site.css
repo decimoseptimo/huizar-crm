@@ -163,6 +163,19 @@ a.desc:after {
     left: 15px;
 }
 
+/* Boostrap alert */
+
+.alert.alert-danger-2 {
+    padding: 7px 12px;
+    color: #1e90ff;
+    color: #389dff;
+    background-color: rgba(30, 144, 255, 0.1);
+}
+
+.alert .glyphicon-first {
+    margin-right: 6px;
+}
+
 /* Overriding Detail View */
 
 .detail-view{}
@@ -193,11 +206,16 @@ a.desc:after {
 /* Overriding Bootstrap Form */
 
 .form-group .btn {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
+    padding: 7px 15px;
 }
 
 .form-group .btn:not(:last-child) {
-    margin-right: 15px;
+    margin-right: 18px;
+}
+
+.form-row-last {
+    margin-top: 25px;
 }
 
 /* Overriding Bootstrap Form horizontal */
