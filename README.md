@@ -5,7 +5,7 @@ A basic web front-end for a point-of-sale desktop application.<br>[**Live demo**
 
 Requirements
 ------------
-* Yii 2.0.9 (PHP 5.4.0)
+* Yii 2.0.10 (PHP 5.4.0)
 * MySQL
 
 Instructions
@@ -53,3 +53,5 @@ Orders {
     customer_id (integer, referenced 'Customer' must have been submitted),
 }
 ```
+
+Bulk submission is not supported at any API endpoint.

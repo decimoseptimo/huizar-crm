@@ -117,7 +117,7 @@ class OrderController extends Controller
     public function actionUpdateStatus($id, $status)
     {
         $model = $this->findModel($id);
-        $model->scenario = Order::SCENARIO_STATUS_UPDATE;
+        //$model->scenario = Order::SCENARIO_STATUS_UPDATE;
 
         $model->status = $status;
 
@@ -144,40 +144,28 @@ class OrderController extends Controller
      */
     public function actionIndividualSearch()
     {
-        //form model
-        $model = new Order();
-        $model->scenario = Order::SCENARIO_SEARCH;
+        //search model
+        $searchModel = new Order();
+        $searchModel->scenario = Order::SCENARIO_SEARCH;
 
-        if ($model->load($post = Yii::$app->request->post()) && $model->validate()) {
+        if ($searchModel->load($post = Yii::$app->request->post()) && $searchModel->validate()) {
 
             $session = Yii::$app->session;
 
-            //query result model
+            //query model
             if (($model = Order::find()->where(['id' => $post['Order']['id']])->one()) !== null) {
-                switch ($model->status) {
-                    case Order::STATUS_RECEIVED:
-                        $orderStatus = 'orderNotReady';
-                        break;
-                    case Order::STATUS_READY_TO_DELIVER:
-                        $orderStatus = 'orderReady';
-                        break;
-                    case Order::STATUS_DELIVERED:
-                        $orderStatus = 'orderDelivered';
-                        break;
-                }
-                $session->setFlash($orderStatus);
                 $session->setFlash('model', $model);
             }
             else {
-                $session->setFlash('orderNotFound');
+                $session->setFlash('modelNotFound');
             }
 
-            $session->setFlash('submittedId', $post['Order']['id']);
+            $session->setFlash('modelId', $post['Order']['id']);
             return $this->refresh();
         }
 
         return $this->render('individualSearch', [
-            'model' => $model,
+            'searchModel' => $searchModel,
         ]);
     }
 

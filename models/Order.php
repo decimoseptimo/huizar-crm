@@ -25,7 +25,6 @@ use app\models\Customer;
  */
 class Order extends \yii\db\ActiveRecord
 {
-
     const STATUS_RECEIVED = 0;
     const STATUS_READY_TO_DELIVER = 1;
     const STATUS_DELIVERED = 2;
@@ -62,7 +61,7 @@ class Order extends \yii\db\ActiveRecord
         return [
             ['id', 'required'],
             ['id', 'integer'],
-            ['id', 'unique'/*, 'except' => self::SCENARIO_SEARCH*/],
+            ['id', 'unique', 'except' => self::SCENARIO_SEARCH],
 
             //API rules
             ['customer_id', 'required', 'on' => self::SCENARIO_API_CREATE],
@@ -72,7 +71,7 @@ class Order extends \yii\db\ActiveRecord
             ['status', 'required', 'on' => [self::SCENARIO_API_CREATE, self::SCENARIO_API_UPDATE]],
             ['status', 'parse_DPOS_Status', 'on' => [self::SCENARIO_API_CREATE, self::SCENARIO_API_UPDATE]],
             ['status', 'in', 'range' => self::allowedStatus()/*, 'strict' => true*/, 'except' => [self::SCENARIO_API_CREATE, self::SCENARIO_API_UPDATE]],
-            ['status', 'statusProcessor'],
+            ['status', 'statusProcessor', 'except' => self::SCENARIO_SEARCH],
         ];
     }
 
@@ -140,7 +139,8 @@ class Order extends \yii\db\ActiveRecord
     /*
      * Checks status value before assigning it as attribute
      */
-    public function statusProcessor($attribute, $params) {
+    public function statusProcessor($attribute, $params)
+    {
         //if($value == $this->status)
         //    throw new BadRequestHttpException('La orden ya se encuentra en el estado solicitado.');
 
@@ -163,7 +163,8 @@ class Order extends \yii\db\ActiveRecord
      *
      * @return array
      */
-    public function allowedStatus() {
+    public function allowedStatus()
+    {
         return [self::STATUS_RECEIVED, self::STATUS_READY_TO_DELIVER, self::STATUS_DELIVERED];
     }
 
@@ -173,7 +174,8 @@ class Order extends \yii\db\ActiveRecord
      * @param $attribute
      * @return null
     */
-    public function parse_DPOS_Status($attribute, $params) {
+    public function parse_DPOS_Status($attribute, $params)
+    {
         foreach(self::DPOS_STATUS_MAP as $key => $value){
             if ($this->$attribute == $key){
                 $this->$attribute = $value;
@@ -183,5 +185,4 @@ class Order extends \yii\db\ActiveRecord
         //throw new HttpException(422, 'Estado invalido: ' . $this->$attribute);
         $this->addError($attribute, 'Estado invalido: ' . $this->$attribute);
     }
-
 }
