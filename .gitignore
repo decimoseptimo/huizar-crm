@@ -26,5 +26,6 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 
-# db credentials
+# sensitive info
 /config/db.php
+/config/params.php

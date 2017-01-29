@@ -2,12 +2,13 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Exception;
 use yii\web\BadRequestHttpException;
 use yii\web\HttpException;
 use yii\db\Expression;
 use app\models\Customer;
-
+use yii\httpclient\Client;
 
 /**
  * This is the model class for table "order".
@@ -147,15 +148,64 @@ class Order extends \yii\db\ActiveRecord
         //if (!in_array($value, self::allowedStatus()))
         //    throw new BadRequestHttpException('El estado solicitado no es valido.');
 
-        if ($this->status == self::STATUS_READY_TO_DELIVER && $this->user_notified_at === Null) {
-            //notify user
-            //on success, set $this->user_notified_at
-            $this->user_notified_at = gmdate('Y-m-d H:i:s');
-        } elseif ($this->status == self::STATUS_DELIVERED && $this->finished_at === Null) {
+        //if order is ready and user hasn't been notified
+        if ($this->status == self::STATUS_READY_TO_DELIVER && !$this->user_notified_at) {
+            //notify user via email
+            $response = self::sendMail(
+                Yii::$app->params['api.emailFrom'],
+                Yii::$app->params['api.emailToTest'],
+                'Tu orden esta lista',
+                $this->customer->fullName,
+                $this->id
+            );
+            //if notification went ok
+            if($response->isOk) {
+                //set notification time
+                $this->user_notified_at = gmdate('Y-m-d H:i:s');
+            }
+        //if order is finished and it hasn't been marked as such
+        } elseif ($this->status == self::STATUS_DELIVERED && !$this->finished_at) {
+            //set finish time
             $this->finished_at = gmdate('Y-m-d H:i:s');
         }
+    }
 
-        //$this->status = $value;
+    /*
+     * Sends email through the ESP API (Mailgun API)
+     *
+     * @return http response
+     */
+    public static function sendMail($from, $to, $subject, $customerName, $orderNumber) {
+        $httpClient = new Client();
+        $httpClient->baseUrl = Yii::$app->params['api.domain'];
+
+        $mailTemplate = self::getMailTemplate(
+            $customerName,
+            $orderNumber
+        );
+
+        $request = $httpClient->createRequest()
+            ->setUrl('messages')
+            ->setMethod('post')
+            ->setHeaders(['authorization'=>'Basic ' . base64_encode('api:' . Yii::$app->params['api.key'])])
+            ->setData([
+                'from' => $from,
+                'to' => $to,
+                'subject' => $subject,
+                //'text' => 'Version de texto plano',
+                'html' => $mailTemplate,
+            ]);
+
+        return $request->send();
+    }
+
+    /*
+     * Returns a mail template content
+     */
+    public static function getMailTemplate($customerName, $orderNumber) {
+        ob_start();
+        include Yii::getAlias('@app/views/emails/advanced.php');
+        return ob_get_clean();
     }
 
     /**
