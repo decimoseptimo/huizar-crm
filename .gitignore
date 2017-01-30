@@ -28,3 +28,4 @@ phpunit.phar
 
 # db credentials
 /config/db.php
+/config/params.php
