@@ -5,12 +5,16 @@ namespace app\controllers;
 use Yii;
 use app\models\Order;
 use app\models\OrderSearch;
+use yii\base\Exception;
+use yii\data\ArrayDataProvider;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use app\models\Customer;
+use yii\httpclient\Client;
 
 /**
  * OrderController implements the CRUD actions for Order model.
@@ -137,6 +141,38 @@ class OrderController extends Controller
             'searchModel' => $searchModel,
             'dtaProvider' => $dataProvider,
         ]);
+    }
+
+    /*
+     * Sends an email to a test address
+     */
+    public function actionSendMailTest()
+    {
+        $response = Order::sendMail(
+            Yii::$app->params['api.emailFrom'],
+            Yii::$app->params['api.emailToTest'],
+            'Tu orden esta lista',
+            'Juan Gonzalez',
+            '1'
+        );
+
+        return $this->render('send-mail', [
+            'response' => $response
+        ]);
+    }
+
+    /*
+     * Renders an email template. A preview of what is sent to customers
+     */
+    public function actionPreviewMail() {
+        $mailTemplate = Order::getMailTemplate(
+            'Jose Perez',
+            '1'
+        );
+
+        $this->layout = false;
+
+        return $this->renderContent($mailTemplate);
     }
 
     /*
