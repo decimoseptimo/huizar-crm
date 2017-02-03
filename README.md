@@ -1,25 +1,30 @@
 Huizar-POS
 ============================
 
-A basic web front-end for a point-of-sale desktop application.<br>[**Live demo**](http://www.azulacero.mx/demos/huizar-pos/web/)
+A basic web front-end for a point-of-sale desktop application.
+It's composed of two parts: the GUI (/web) and the RESTful API server (/api).
+<br>[**Live demo**](http://www.azulacero.mx/demos/huizar-pos/web/)
 
 Requirements
 ------------
-* Yii 2.0.10 (PHP 5.4.0)
+* Yii 2.x (PHP 5.4.0)
 * MySQL
 
 Instructions
 ------------
 * Setup database
-* Setup /config/db.php file with your db credentials
+* Setup /config/db.php with your db credentials
+* Setup /config/params.php with your ESP credentials
+* Run migrations in /migrations folder
+
 
 TODO
 ----
 
-- [ ] Either provide DB schema, .sql import file, or implement migrations
+- [x] Implement migrations
 - [x] Add RESTful API for managing customers and orders
-- [ ] Implement ESP APIs to send email
-- [ ] Design HTML template(s)
+- [x] Implement ESP APIs to send email
+- [x] Design HTML template(s)
 - [x] Add access control
 - [ ] Integrate order search to website
 

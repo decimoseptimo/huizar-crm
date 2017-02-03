@@ -194,6 +194,7 @@ class Order extends \yii\db\ActiveRecord
                 'subject' => $subject,
                 //'text' => 'Version de texto plano',
                 'html' => $mailTemplate,
+                'h:List-Unsubscribe' => '%unsubscribe_url%',
             ]);
 
         return $request->send();
@@ -204,7 +205,7 @@ class Order extends \yii\db\ActiveRecord
      */
     public static function getMailTemplate($customerName, $orderNumber) {
         ob_start();
-        include Yii::getAlias('@app/views/emails/advanced.php');
+        include Yii::getAlias('@app/views/emails/transactional-simple.php');
         return ob_get_clean();
     }
 

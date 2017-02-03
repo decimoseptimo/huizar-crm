@@ -6,7 +6,7 @@ use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Order */
 
-$this->title = 'Send mail';
+$this->title = 'Send mail test';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

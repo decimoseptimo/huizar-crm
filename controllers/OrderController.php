@@ -156,7 +156,7 @@ class OrderController extends Controller
             '1'
         );
 
-        return $this->render('send-mail', [
+        return $this->render('send-mail-test', [
             'response' => $response
         ]);
     }
@@ -200,7 +200,7 @@ class OrderController extends Controller
             return $this->refresh();
         }
 
-        return $this->render('individualSearch', [
+        return $this->render('individual-search', [
             'searchModel' => $searchModel,
         ]);
     }
