@@ -90,7 +90,6 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-
 .btn-circle {
     width: 30px;
     height: 30px;
@@ -204,6 +203,17 @@ a.desc:after {
 
 .form-row-last {
     margin-top: 25px;
+}
+
+/* Alert */
+
+.alert-simple {
+    margin-bottom: 16px;
+    color: rgba(239, 79, 137, .8);
+}
+
+.alert-simple .glyphicon {
+    margin-right: 4px;
 }
 
 /* Overriding Bootstrap Form horizontal */
@@ -336,7 +346,6 @@ a.panel:hover {
     color: #000;
 }
 
-/* */
 .table.customer .id-filter {
     max-width: 30px;
 }

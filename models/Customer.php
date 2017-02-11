@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\db\Expression;
 use app\models\Order;
 
@@ -21,7 +20,6 @@ use app\models\Order;
  */
 class Customer extends \yii\db\ActiveRecord
 {
-    
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
 
@@ -40,10 +38,15 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             [['first_name', 'last_name', 'email', 'id'], 'required'],
-            [['id'], 'number'],
+            [['id'], 'integer'],
             [['email'], 'email'],
             [['email', 'id'], 'unique'],
             [['first_name', 'last_name', 'email'], 'string', 'max' => 128],
+            [['first_name', 'last_name', ], 'trim'],
+            //Normalizes input (i.e. from "HELLO WORLD" to "Hello World")
+            [['first_name', 'last_name'], 'filter', 'filter' => function ($value) {
+                return ucwords(strtolower($value));
+            }],
         ];
     }
 
@@ -71,7 +74,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Order::className(), ['customer_id' => 'id']);
     }
-    
+
     public function getFullName()
     {
         return $this->first_name . ' ' . $this->last_name;
@@ -93,12 +96,15 @@ class Customer extends \yii\db\ActiveRecord
             return false;
         }
     }
-    
-    public function createOrder()
+
+    /*
+     * @return \app\models\Order
+     */
+    /*public function createOrder()
     {
         $order = new Order();
         $order->customer_id = $this->id;
         return $order;
-    }
+    }*/
 
 }
