@@ -205,13 +205,41 @@ a.desc:after {
 
 /* Overriding Bootstrap Form */
 
-.form-group .btn {
-    /*margin-top: 10px;*/
+.form-control-inline {
+    min-width: 0;
+    width: auto;
+    display: inline;
+}
+
+.form-inline {
+    display: inline-block;
+}
+.form-inline .form-group {
+    vertical-align: baseline;
+}
+
+/* form-group variants */
+.form-group-a .btn {
     padding: 7px 15px;
 }
 
-.form-group .btn:not(:last-child) {
+.form-group-a .btn:not(:last-child) {
     margin-right: 18px;
+}
+
+/* form-group-b */
+.form-group-b {
+    position: relative;
+}
+
+.form-group-b .help-block {
+    position: absolute;
+    width: 300px;
+    font-size: 12px;
+}
+
+.form-group-c .btn {
+    margin-top: 8px;
 }
 
 .form-row-last {

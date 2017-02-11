@@ -28,10 +28,7 @@ $this->registerJs('
     <div class="page-header">
         <h1><?= Html::encode($model->fullName) . '<span class="lighten"><span class="separator"> / </span>' . Html::encode($this->title) . '</span>'; ?></h1>
         <div class="action-menu">
-            <select class="selectpicker item" data-style="btn btn-default btn-sm" data-width="fit" data-size="54">
-                <option>Ultimas 48 hrs</option>
-                <option>Todas</option>
-            </select><!--
+            <?= $this->render('_orders-search', ['model' => $model, 'allowedTimeUnits' => $allowedTimeUnits]); ?><!--
             --><?= Html::a('<span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;Crear Orden', ['order/create', 'id' => $model->id], ['class' => 'btn btn-success btn-sm item']) ?>
         </div>
     </div>
