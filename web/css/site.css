@@ -121,18 +121,6 @@ a.desc:after {
  * Application styles
  *****************************************************************************/
 
-.glyphicon.glyphicon-one-fine-dot {
-    overflow: hidden;
-    line-height: .9;
-}
-
-.glyphicon.glyphicon-one-fine-dot:before {
-    content: "\25cf";
-    font-size: 28px;
-    position: relative;
-    bottom: 4px;
-}
-
 /* Btn Gray */
 
 .btn-gray {
@@ -328,6 +316,10 @@ a.panel:hover {
     max-width: 80px;
 }
 
+.table td.input-container {
+    max-width: 160px;
+}
+
 .table tr:nth-child(odd) td .glyphicon-user {
     color: #dcdcdc !important;
 }
@@ -356,6 +348,45 @@ a.panel:hover {
 
 .table.customer .id-content {
     text-align: center;
+}
+
+table .orders-column {
+    padding: 0 !important;
+}
+
+.orders-column-table {
+    width: 100%;
+    text-align: center;
+}
+
+.orders-column-table td {
+    padding: 13px 8px;
+    border-right: 1px solid #ddd;
+}
+
+.orders-column-table.filters-row td {
+    padding: 12px 8px 9px 8px;
+}
+
+.orders-column-table td:last-child {
+    border-right: 0;
+}
+
+.orders-column-table .glyphicon-ok-sign {
+    padding:2px;
+}
+
+.glyphicon.glyphicon-one-fine-dot {
+    overflow: hidden;
+    line-height: .8;
+}
+
+.glyphicon.glyphicon-one-fine-dot:before {
+    content: "\25cf";
+    font-size: 29px;
+    position: relative;
+    top: -4px;
+    left: -1px;
 }
 
 /* Developer Credits */

@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\base\Exception;
 use yii\web\BadRequestHttpException;
 use yii\web\HttpException;
 use yii\db\Expression;
@@ -20,6 +19,7 @@ use yii\httpclient\Client;
  * @property integer $updated_at
  * @property integer $finished_at
  * @property integer $customer_id
+ * @property integer $ready_at
  * @property integer $user_notified_at
  *
  * @property Customer $user
@@ -78,7 +78,6 @@ class Order extends \yii\db\ActiveRecord
 
     /**
      * Alternative version for declaring scenarios.
-     *
      * @return array
      */
     /*public function scenarios()
@@ -100,9 +99,10 @@ class Order extends \yii\db\ActiveRecord
             'id' => 'Numero',
             //'number' => 'Numero de Orden',
             'status' => 'Estado',
-            'created_at' => 'Creado en',
+            'created_at' => 'Recibida en',
+            'ready_at' => 'Lista en',
             'updated_at' => 'Actualizado en',
-            'finished_at' => 'Finalizado en',
+            'finished_at' => 'Entregada en',
             'customer_id' => 'ID Cliente',
         ];
     }
@@ -148,34 +148,38 @@ class Order extends \yii\db\ActiveRecord
         //if (!in_array($value, self::allowedStatus()))
         //    throw new BadRequestHttpException('El estado solicitado no es valido.');
 
-        //if order is ready and user hasn't been notified
-        if ($this->status == self::STATUS_READY_TO_DELIVER && !$this->user_notified_at) {
-            //notify user via email
-            $response = self::sendMail(
-                Yii::$app->params['api.emailFrom'],
-                Yii::$app->params['api.emailToTest'],
-                'Tu orden esta lista',
-                $this->customer->fullName,
-                $this->id
-            );
-            //if notification went ok
-            if($response->isOk) {
-                //set notification time
-                $this->user_notified_at = gmdate('Y-m-d H:i:s');
+        //if order is ready
+        if ($this->status == self::STATUS_READY_TO_DELIVER/* && !$this->user_notified_at*/) {
+
+            $this->ready_at = gmdate('Y-m-d H:i:s');
+
+            //if mail sending is enabled
+            if(Yii::$app->params['mailSendingEnabled']) {
+                $response = self::sendMail(
+                    Yii::$app->params['api.emailFrom'],
+                    //Yii::$app->params['api.emailToTest'],
+                    $this->customer->email,
+                    'Tu orden esta lista',
+                    $this->customer->fullName,
+                    $this->id
+                );
+                if ($response->isOk) {
+                    $this->user_notified_at = gmdate('Y-m-d H:i:s');
+                }
             }
-        //if order is finished and it hasn't been marked as such
-        } elseif ($this->status == self::STATUS_DELIVERED && !$this->finished_at) {
-            //set finish time
+        //if order is delivered
+        } elseif ($this->status == self::STATUS_DELIVERED/* && !$this->finished_at*/) {
             $this->finished_at = gmdate('Y-m-d H:i:s');
         }
     }
 
     /*
-     * Sends email through the ESP API (Mailgun API)
+     * Sends an email through the ESP API (Mailgun API)
      *
-     * @return http response
+     * @return \yii\web\Response
      */
-    public static function sendMail($from, $to, $subject, $customerName, $orderNumber) {
+    public static function sendMail($from, $to, $subject, $customerName, $orderNumber)
+    {
         $httpClient = new Client();
         $httpClient->baseUrl = Yii::$app->params['api.domain'];
 
@@ -202,8 +206,12 @@ class Order extends \yii\db\ActiveRecord
 
     /*
      * Returns a mail template content
+     * @param $customerName string
+     * @param $orderNumber integer
+     * @return mixed
      */
-    public static function getMailTemplate($customerName, $orderNumber) {
+    public static function getMailTemplate($customerName, $orderNumber)
+    {
         ob_start();
         include Yii::getAlias('@app/views/emails/transactional-simple.php');
         return ob_get_clean();
@@ -211,7 +219,6 @@ class Order extends \yii\db\ActiveRecord
 
     /**
      * Returns a list of allowed statuses
-     *
      * @return array
      */
     public function allowedStatus()
@@ -221,9 +228,9 @@ class Order extends \yii\db\ActiveRecord
 
     /**
      * Returns mapped status
-     *
      * @param $attribute
-     * @return null
+     * @param $params
+     * @return void
     */
     public function parse_DPOS_Status($attribute, $params)
     {
@@ -234,6 +241,33 @@ class Order extends \yii\db\ActiveRecord
             }
         }
         //throw new HttpException(422, 'Estado invalido: ' . $this->$attribute);
-        $this->addError($attribute, 'Estado invalido: ' . $this->$attribute);
+        $this->addError($attribute, 'Invalid status: ' . $this->$attribute);
+    }
+
+    /*
+     * Returns an HTML tag for icon rendering
+     * @param $status string
+     * @return string
+     */
+    public static function getStatusIcon($status)
+    {
+        switch ($status) {
+            case self::STATUS_RECEIVED:
+                $title = 'Recibida';
+                $color = '#FFDC00';
+                $glyphicon = 'glyphicon-one-fine-dot';
+                break;
+            case self::STATUS_READY_TO_DELIVER:
+                $title = 'Lista';
+                $color = 'limegreen';
+                $glyphicon = 'glyphicon-one-fine-dot';
+                break;
+            case self::STATUS_DELIVERED:
+                $title = 'Entregada';
+                $color = 'limegreen';
+                $glyphicon = 'glyphicon-ok-sign';
+                break;
+        }
+        return '<i title="'.$title.'" class="glyphicon '.$glyphicon.'" style="color: '.$color.'"></i>';
     }
 }

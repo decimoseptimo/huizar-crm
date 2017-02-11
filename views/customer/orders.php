@@ -58,6 +58,13 @@ $this->registerJs('
                     return Yii::$app->formatter->asDate($model->created_at) . '&nbsp;&nbsp;<span class="lighten time" title="' . Yii::$app->formatter->asTime($model->created_at, 'php:h:i:s A') . '">' . Yii::$app->formatter->asTime($model->created_at) . '</span>';
             }],
             [
+                'attribute' => 'ready_at',
+                'contentOptions' => ['class'=>'datetime'],
+                'format' => 'raw',
+                'value' => function($model) {
+                    return isset($model->ready_at) ? Yii::$app->formatter->asDate($model->ready_at) . '&nbsp;&nbsp;<span class="lighten time" title="' . Yii::$app->formatter->asTime($model->ready_at, 'php:h:i:s A') . '">' . Yii::$app->formatter->asTime($model->ready_at) . '</span>' : '--';
+            }],
+            [
                 'attribute' => 'finished_at',
                 'contentOptions' => ['class'=>'datetime'],
                 'format' => 'raw',
@@ -69,24 +76,7 @@ $this->registerJs('
                 'contentOptions' => ['class' => 'text-center'],
                 'format' => 'raw',
                 'value' => function($model) {
-                    switch ($model->status){
-                        case Order::STATUS_RECEIVED:
-                            $title = 'Recibida';
-                            $color = '#FFDC00';
-                            $glyphicon = 'glyphicon-one-fine-dot';
-                            break;
-                        case Order::STATUS_READY_TO_DELIVER:
-                            $title = 'Lista';
-                            $color = 'limegreen';
-                            $glyphicon = 'glyphicon-one-fine-dot';
-                            break;
-                        case Order::STATUS_DELIVERED:
-                            $title = 'Entregada';
-                            $color = 'limegreen';
-                            $glyphicon = 'glyphicon-ok-sign';
-                            break;
-                    }
-                    return '<i title="'.$title.'" class="glyphicon '.$glyphicon.'" style="color: '.$color.'"></i>';
+                    return Order::getStatusIcon($model->status);
             }],
             [
                 'format' => 'raw',

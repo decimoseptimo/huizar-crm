@@ -77,7 +77,9 @@ $this->registerJs("
                 'format' => 'raw',
                 'value' => function($model) {
                     return Html::a(sprintf('%08d', $model->id), ['customer/orders', 'id'=>$model->customer->id, 'highlight'=>$model->id]);
-            }],
+                },
+                'filterOptions' => ['class' => 'input-container'],
+            ],
             [
                 'attribute' => 'created_at',
                 'contentOptions' => ['class'=>'datetime'],
@@ -114,24 +116,7 @@ $this->registerJs("
                 'contentOptions' => ['class' => 'text-center'],
                 'format' => 'raw',
                 'value' => function($model) {
-                    switch ($model->status){
-                        case Order::STATUS_RECEIVED:
-                            $title = 'Recibida';
-                            $color = '#FFDC00';
-                            $glyphicon = 'glyphicon-one-fine-dot';
-                            break;
-                        case Order::STATUS_READY_TO_DELIVER:
-                            $title = 'Lista';
-                            $color = 'limegreen';
-                            $glyphicon = 'glyphicon-one-fine-dot';
-                            break;
-                        case Order::STATUS_DELIVERED:
-                            $title = 'Entregada';
-                            $color = 'limegreen';
-                            $glyphicon = 'glyphicon-ok-sign';
-                            break;
-                    }
-                    return '<i title="'.$title.'" class="glyphicon '.$glyphicon.'" style="color: '.$color.'"></i>';
+                    return Order::getStatusIcon($model->status);
             }],
             [
                 'format' => 'raw',

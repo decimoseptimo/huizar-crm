@@ -48,7 +48,6 @@ $this->registerJsFile('@web/js/bootstrap-select.min.js', ['depends' => [JqueryAs
         'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
-
             [
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-center'],
@@ -67,28 +66,30 @@ $this->registerJsFile('@web/js/bootstrap-select.min.js', ['depends' => [JqueryAs
             'email:email',
             [
                 'attribute' => 'Ordenes',
+                'filter' => '
+                <table class="orders-column-table filters-row">
+                    <tr>
+                        <td>'.Order::getStatusIcon(Order::STATUS_RECEIVED).'</td>
+                        <td>'.Order::getStatusIcon(Order::STATUS_READY_TO_DELIVER).'</td>
+                        <td>'.Order::getStatusIcon(Order::STATUS_DELIVERED).'</td>
+                    </tr>
+                </table>',
                 'format' => 'raw',
-                'contentOptions' => ['class' => 'text-center'],
+                'filterOptions' => ['class' => 'orders-column'],
+                'contentOptions' => ['class' => 'text-center orders-column'],
                 'value' => function($model) {
-                    //$ordersCount = count($model->orders);
-                    $ordersCount = $model->getOrders()->count();
-                    $completedOrdersCount = $model->getOrders()->where(['status' => Order::STATUS_DELIVERED])->count();
+                    $ordersReceivedCount = $model->getOrders()->where(['status' => Order::STATUS_RECEIVED])->count();
+                    $ordersReadyCount = $model->getOrders()->where(['status' => Order::STATUS_READY_TO_DELIVER])->count();
+                    $ordersDeliveredCount = $model->getOrders()->where(['status' => Order::STATUS_DELIVERED])->count();
 
-                    if($ordersCount == 0) {
-                        $text = '0 / 0';
-                        $class = 'label custom label-info';
-                        $tooltip = 'Sin ordenes';
-                    } else if ($completedOrdersCount < $ordersCount) {
-                        $text = $completedOrdersCount . ' / ' . $ordersCount;
-                        $class = 'label custom label-blue-1';
-                        $tooltip = $completedOrdersCount . ' de ' . $ordersCount . ' finalizadas';
-                    } else {
-                        $text = $ordersCount . ' / ' . $ordersCount;
-                        $class = 'label custom label-blue-2';
-                        $tooltip = 'Todas finalizadas';
-                    }
-
-                    return HTML::a($text, ['customer/orders', 'id' => $model->id], ['class' => $class, 'title' => $tooltip]);
+                    return '
+                    <table class="orders-column-table">
+                        <tr>
+                            <td>'. HTML::a($ordersReceivedCount, ['customer/orders', 'id'=>$model->id]) .'</td>
+                            <td>'. HTML::a($ordersReadyCount, ['customer/orders', 'id'=>$model->id]) .'</td>
+                            <td>'. HTML::a($ordersDeliveredCount, ['customer/orders', 'id'=>$model->id]) .'</td>
+                        </tr>
+                    </table>';
                 }
             ],
             [
@@ -103,6 +104,5 @@ $this->registerJsFile('@web/js/bootstrap-select.min.js', ['depends' => [JqueryAs
             ],
         ],
     ]); ?>
-
 
 </div>
