@@ -16,9 +16,9 @@ body {
 
 .footer {
     height: 60px;
-    background-color: #f5f5f5;
     border-top: 1px solid #ddd;
     padding-top: 20px;
+    background-color: #f5f5f5;
 }
 
 .jumbotron {
@@ -336,9 +336,20 @@ a.panel:hover {
     font-size: 12px;
 }
 
+.panel-empty {
+    background: rgba(109, 114, 128, 0.80) url("/img/japanese-cherry-trees-flowers-spring-japanese-flowering-cherry-54630.jpeg") 50%;
+    background-blend-mode: luminosity;
+    height: 186px;
+    opacity: 0.9;
+}
+
 /*.table > tbody > tr.highlight {
     background-color: lightyellow;
 }*/
+
+.grid-view {
+    margin-bottom: 60px;
+}
 
 /* Overriding Bootstrap Table */
 

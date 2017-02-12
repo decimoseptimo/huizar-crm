@@ -23,7 +23,7 @@ $this->title = 'Huizar POS';
                 <a href="<?= Url::toRoute('customer/index'); ?>" class="panel panel-default">
                     <div class="panel-body text-primary">
                         <h2>Consulta de Clientes <span class="lighten">y sus ordenes</span></h2>
-                        <p>Visualización, búsqueda, y actualizacion de clientes. Asi como visualización, y actualizacion de sus ordenes.</p>
+                        <p>Búsqueda, visualización, y actualización de clientes. Asi como visualización, y actualización de sus ordenes.</p>
                         <div class="pull-right access-btn">Accesar <i class="glyphicon glyphicon-arrow-right"></i></div>
                     </div>
                 </a>
@@ -32,12 +32,21 @@ $this->title = 'Huizar POS';
                 <a href="<?= Url::toRoute('order/index'); ?>" class="panel panel-default">
                     <div class="panel-body text-primary">
                         <h2>Consulta de Ordenes</h2>
-                        <p>Visualización, búsqueda, y actualizacion de ordenes.<br>&nbsp;</p>
+                        <p>Búsqueda, visualización, y actualización de ordenes.<br>&nbsp;</p>
                         <div class="pull-right access-btn">Accesar <i class="glyphicon glyphicon-arrow-right"></i></div>
                     </div>
                 </a>
             </div>
-            <div class="col-lg-6 col-lg-offset-6">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-body text-primary panel-empty">
+                        <!--<h2>Consulta tu Orden</h2>
+                        <p>Consulta el estado de tu orden con el "número de orden" impreso en tu ticket.<br>&nbsp;</p>
+                        <div class="pull-right access-btn">Accesar <i class="glyphicon glyphicon-arrow-right"></i></div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
                 <a href="<?= Url::toRoute('order/individual-search'); ?>" class="panel panel-default">
                     <div class="panel-body text-primary">
                         <h2>Consulta tu Orden</h2>
