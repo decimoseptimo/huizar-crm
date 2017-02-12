@@ -32,15 +32,10 @@ $this->registerJsFile('@web/js/bootstrap-select.min.js', ['depends' => [JqueryAs
     <div class="page-header">
         <h1><?= Html::encode($this->title) ?></h1>
         <div class="action-menu">
-            <select class="selectpicker item" data-style="btn btn-default btn-sm" data-width="fit" data-size="54">
-                <option>últimas 72 horas</option>
-                <option>últimos 7 días</option>
-                <option selected>últimos 30 días</option>
-            </select><!--
-            --><?= Html::a('<span class="glyphicon glyphicon-plus-sign"></span> &nbsp;Crear Cliente', ['create'], ['class' => 'btn btn-success btn-sm item']) ?>
+            <?= $this->render('_search', ['model' => $searchModel, 'allowedTimeUnits' => $allowedTimeUnits]); ?>
+            <?= Html::a('<span class="glyphicon glyphicon-plus-sign"></span> &nbsp;Crear Cliente', ['create'], ['class' => 'btn btn-success btn-sm item']) ?>
         </div>
     </div>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

@@ -5,7 +5,6 @@ namespace app\controllers;
 use Yii;
 use app\models\Customer;
 use app\models\CustomerSearch;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -45,11 +44,11 @@ class CustomerController extends Controller
     {
         $searchModel = new CustomerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->sort->defaultOrder = ['created_at' => SORT_DESC];
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'allowedTimeUnits' => CustomerSearch::ALLOWED_TIME_UNITS,
         ]);
     }
 
@@ -72,20 +71,15 @@ class CustomerController extends Controller
      */
     public function actionOrders($id, $highlight = null)
     {
-        $model = $this->findModel($id);
-        $orders = $model->getOrders();
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $orders,
-            'sort' => [
-                'defaultOrder' => ['created_at' => SORT_DESC],
-            ],
-        ]);
+        $model = $this->findSearchModel($id);
+        //$model->timeNumber=666;
+        $dataProvider = $model->searchOrders(Yii::$app->request->queryParams);
         
         return $this->render('orders', [
             'model' => $model,
             'dataProvider' => $dataProvider,
             'highlight' => $highlight,
+            'allowedTimeUnits' => CustomerSearch::ALLOWED_TIME_UNITS,
         ]);
     }
 
@@ -149,6 +143,22 @@ class CustomerController extends Controller
     protected function findModel($id)
     {
         if (($model = Customer::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the CustomerSearch model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Customer the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findSearchModel($id)
+    {
+        if (($model = CustomerSearch::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

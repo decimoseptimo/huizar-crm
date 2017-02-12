@@ -16,12 +16,22 @@ use app\models\Order;
 class OrderSearch extends Order
 {
 
-    //differs form created_at in that It isn't a datetime value
+    //differs from created_at in that it isn't a datetime value
     public $createdAtDate;
     public $createdAtDateMachineFormat;
     //public $createdAtTime;
     //public $createdAtTimeMachineFormat;
-    //public $customer;
+
+    public $timeNumber;
+    public $timeUnit = 'DAY';
+
+    //DBMS time unit => label
+    const ALLOWED_TIME_UNITS = [
+        'MINUTE' => 'Minutos',
+        'HOUR' => 'Horas',
+        'DAY' => 'Dias',
+        'MONTH' => 'Meses',
+    ];
 
     /**
      * @inheritdoc
@@ -31,10 +41,11 @@ class OrderSearch extends Order
         return [
             [['id', /*, 'status', 'customer_id'*/], 'integer'],
             [[/*'created_at', */'createdAtDate'/*, 'createdAtTime'*/], 'trim'],
-            //[['customer'], 'safe'],
             //[['created_at'], 'date', 'type' => DateValidator::TYPE_DATETIME, 'timestampAttribute' => 'createdAtMachineFormat', 'timestampAttributeFormat' => 'php:Y-m-d H:i:s'],
             [['createdAtDate'], 'date', 'timestampAttribute' => 'createdAtDateMachineFormat', 'timestampAttributeFormat' => 'php:Y-m-d'],
             /*[['createdAtTime'], 'date', 'type' => DateValidator::TYPE_TIME, 'timestampAttribute' => 'createdAtTimeMachineFormat', 'timestampAttributeFormat' => 'php:H:i:s'],*/
+            ['timeNumber', 'integer', 'message' => 'Este campo debe ser un número entero'],
+            ['timeUnit', 'in', 'range' => array_keys(self::ALLOWED_TIME_UNITS), 'allowArray' => true]
         ];
     }
 
@@ -56,7 +67,6 @@ class OrderSearch extends Order
      */
     public function search($params)
     {
-
         $query = Order::find();
         $query->joinWith(['customer']);
 
@@ -100,7 +110,7 @@ class OrderSearch extends Order
         }
 
         $dateFrom = $dateTo = null;
-        if(isset($this->createdAtDateMachineFormat)){
+        if(isset($this->createdAtDateMachineFormat)) {
             $format = 'Y-m-d H:i:s';
             $datetime = new \DateTime($this->createdAtDateMachineFormat, new \DateTimeZone(Yii::$app->timeZone));
             $datetime->setTimezone(new \DateTimeZone('UTC'));
@@ -128,6 +138,10 @@ class OrderSearch extends Order
         //->andFilterWhere(["TIME(CONVERT_TZ(created_at, 'UTC', 'America/Tijuana'))" => $this->createdAtTimeMachineFormat]);
 
         //->andFilterWhere(["created_at" => new Expression("CONVERT_TZ('2016-06-02 19:30:16', 'America/Tijuana', 'UTC')")]);
+
+        if(!empty($this->timeNumber)) {
+            $query->andWhere(['>=', 'order.created_at', new Expression('DATE_SUB(NOW(), INTERVAL ' . $this->timeNumber . ' ' . $this->timeUnit . ')')]);
+        }
 
         return $dataProvider;
     }

@@ -54,14 +54,9 @@ $this->registerJs("
     <div class="page-header">
         <h1><?= Html::encode($this->title) ?></h1>
         <div class="action-menu">
-            <select class="selectpicker item" data-style="btn btn-default btn-sm" data-width="fit" data-size="54">
-                <option>últimas 72 horas</option>
-                <option>últimos 7 días</option>
-                <option selected>últimos 30 días</option>
-            </select>
+            <?= $this->render('_search', ['model' => $searchModel, 'allowedTimeUnits' => $allowedTimeUnits]); ?>
         </div>
     </div>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

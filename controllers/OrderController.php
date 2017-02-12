@@ -14,6 +14,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use app\models\Customer;
+use app\models\CustomerSearch;
 use yii\httpclient\Client;
 
 /**
@@ -54,6 +55,7 @@ class OrderController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'allowedTimeUnits' => CustomerSearch::ALLOWED_TIME_UNITS,
         ]);
     }
 

@@ -8,28 +8,20 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="customer-search">
-
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => ['class' => 'form-inline item'],
+        'fieldConfig' => ['options' => ['class' => 'form-group form-group-b']],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <span>Mostrar ultimos:</span>
+    <?= $form->field($model, 'timeNumber')->textInput(['size'=>'4', 'tag'=>false, 'class' => 'form-control form-control-inline input-sm', 'onblur' => 'this.form.submit()'])->label(false); ?>
+    <?= $form->field($model, 'timeUnit')->dropDownList($allowedTimeUnits, ['class' => 'selectpicker', 'data-style' => 'btn btn-default btn-sm', 'data-width' => 'fit', 'onchange' => 'this.form.submit()'])->label(false); ?>
 
-    <?= $form->field($model, 'first_name') ?>
-
-    <?= $form->field($model, 'last_name') ?>
-
-    <?= $form->field($model, 'email') ?>
-
-    <?= $form->field($model, 'created_at') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
-    </div>
+    <!--<div class="form-group col-lg-2">
+        <?/*= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) */?>
+        <?/*= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) */?>
+    </div>-->
 
     <?php ActiveForm::end(); ?>
-
-</div>
