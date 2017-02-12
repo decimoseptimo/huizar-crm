@@ -22,8 +22,8 @@ $this->title = 'Huizar POS';
             <div class="col-lg-6">
                 <a href="<?= Url::toRoute('customer/index'); ?>" class="panel panel-default">
                     <div class="panel-body text-primary">
-                        <h2>Administración de Clientes <span class="lighten">y Ordenes</span></h2>
-                        <p>Búsqueda, visualización, y mantenimiento de clientes. Asi como visualización, y mantenimiento de sus ordenes.</p>
+                        <h2>Consulta de Clientes <span class="lighten">y sus ordenes</span></h2>
+                        <p>Visualización, búsqueda, y actualizacion de clientes. Asi como visualización, y actualizacion de sus ordenes.</p>
                         <div class="pull-right access-btn">Accesar <i class="glyphicon glyphicon-arrow-right"></i></div>
                     </div>
                 </a>
@@ -32,7 +32,7 @@ $this->title = 'Huizar POS';
                 <a href="<?= Url::toRoute('order/index'); ?>" class="panel panel-default">
                     <div class="panel-body text-primary">
                         <h2>Consulta de Ordenes</h2>
-                        <p>Búsqueda, visualización, y mantenimiento de ordenes.<br>&nbsp;</p>
+                        <p>Visualización, búsqueda, y actualizacion de ordenes.<br>&nbsp;</p>
                         <div class="pull-right access-btn">Accesar <i class="glyphicon glyphicon-arrow-right"></i></div>
                     </div>
                 </a>

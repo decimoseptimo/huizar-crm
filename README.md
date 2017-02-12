@@ -2,7 +2,7 @@ Huizar-POS
 ============================
 
 A basic web front-end for a point-of-sale desktop application.
-It's composed of two parts: the GUI (/web) and the RESTful API server (/api).
+It's composed of two parts: a GUI (/web) and a RESTful API server (/api).
 <br>[**Live demo**](http://www.azulacero.mx/demos/huizar-pos/web/)
 
 Requirements
@@ -16,7 +16,6 @@ Instructions
 * Setup /config/db.php with your db credentials
 * Setup /config/params.php with your ESP credentials
 * Run migrations in /migrations folder
-
 
 TODO
 ----
