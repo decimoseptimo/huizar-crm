@@ -1,20 +1,25 @@
 # Huizar-POS
 
-A web front-end with a RESTful API intended to feed from a desktop POS application.
-It has two main entry points: the GUI (/web) and the RESTful server (/api).
+A web GUI with a RESTful API where data can be fed to.
+
+It has two main entry points: `/web` the GUI and `/api` the RESTful server .
 
 ## Demo
-http://www.azulacero.mx/huizar-pos/web/
+http://www.azulacero.mx/huizar-pos/
 
 ## Requirements
 * Yii 2.x (PHP 5.4.0)
 * MySQL
+* Composer
 
 ## Instructions
-* Setup database
-* Setup /config/db.php with your db credentials
+* Deploy to server and instruct composer to install dependencies
+* Setup /config/db.php with your DB credentials
 * Setup /config/params.php with your ESP credentials
+
+Either:
 * Run migrations in /migrations folder
+* Or import /sample.sql (e.g. `mysql -u MYSQL_USER -p DB_NAME < PATH_TO_SAMPLE.SQL`)
 
 ## TODO
 - [x] Implement migrations
@@ -25,7 +30,7 @@ http://www.azulacero.mx/huizar-pos/web/
 - [ ] Integrate order search to website
 
 ## API
-#####Customers
+##### Customers
 * POST /api/v1/customers
 * PUT/PATCH /api/v1/customers/{id}
 * DELETE /api/v1/customers/{id}
@@ -40,7 +45,7 @@ Customers {
 }
 ```
 
-#####Orders
+##### Orders
 * POST /api/v1/orders
 * PUT/PATCH /api/v1/orders/{id}
 * DELETE /api/v1/orders/{id}
